@@ -15,10 +15,25 @@
     .flipped {
       background-color: #fff;
     }
+    #game-board {
+      display: flex;
+      flex-wrap: wrap;
+      width: 550px;
+      margin: 0 auto;
+    }
+    #win-screen {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
   <div id="game-board"></div>
+  <div id="win-screen">
+    <h1>You win!</h1>
+    <button onclick="resetGame()">Play Again</button>
+  </div>
   <script>
     const cards = [
       { value: 'A', img: './Images/DEV.webp' },
@@ -42,6 +57,7 @@
 
     function createBoard() {
       const gameBoard = document.getElementById('game-board');
+      gameBoard.innerHTML = '';
       shuffle(cards);
       cards.forEach(card => {
         const cardElement = document.createElement('div');
@@ -70,7 +86,8 @@
       if (card1.dataset.value === card2.dataset.value) {
         matchedPairs++;
         if (matchedPairs === cards.length / 2) {
-          alert('You win!');
+          document.getElementById('game-board').style.display = 'none';
+          document.getElementById('win-screen').style.display = 'block';
         }
       } else {
         card1.classList.remove('flipped');
@@ -79,6 +96,14 @@
         card2.style.backgroundImage = '';
       }
       flippedCards = [];
+    }
+
+    function resetGame() {
+      matchedPairs = 0;
+      flippedCards = [];
+      document.getElementById('game-board').style.display = 'flex';
+      document.getElementById('win-screen').style.display = 'none';
+      createBoard();
     }
 
     createBoard();
