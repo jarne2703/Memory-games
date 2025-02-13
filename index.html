@@ -5,10 +5,12 @@
     .card {
       width: 100px;
       height: 100px;
-      background-color: #ccc;
+      background-color: rgb(67, 255, 183);
       display: inline-block;
       margin: 10px;
       cursor: pointer;
+      background-size: cover;
+      background-position: center;
     }
     .flipped {
       background-color: #fff;
@@ -18,7 +20,16 @@
 <body>
   <div id="game-board"></div>
   <script>
-    const cards = ['A', 'A', 'B', 'B', 'C', 'C', 'D', 'D'];
+    const cards = [
+      { value: 'A', img: './Images/DEV.webp' },
+      { value: 'A', img: './Images/DEV.webp' },
+      { value: 'B', img: './Images/HR.jpg' },
+      { value: 'B', img: './Images/HR.jpg' },
+      { value: 'C', img: './Images/Sales.jpg' },
+      { value: 'C', img: './Images/Sales.jpg' },
+      { value: 'D', img: './Images/Finance.jpg' },
+      { value: 'D', img: './Images/Finance.jpg' }
+    ];
     let flippedCards = [];
     let matchedPairs = 0;
 
@@ -35,7 +46,8 @@
       cards.forEach(card => {
         const cardElement = document.createElement('div');
         cardElement.classList.add('card');
-        cardElement.dataset.value = card;
+        cardElement.dataset.value = card.value;
+        cardElement.dataset.img = card.img;
         cardElement.addEventListener('click', flipCard);
         gameBoard.appendChild(cardElement);
       });
@@ -44,7 +56,7 @@
     function flipCard() {
       if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
         this.classList.add('flipped');
-        this.textContent = this.dataset.value;
+        this.style.backgroundImage = `url(${this.dataset.img})`;
         flippedCards.push(this);
 
         if (flippedCards.length === 2) {
@@ -62,9 +74,9 @@
         }
       } else {
         card1.classList.remove('flipped');
-        card1.textContent = '';
+        card1.style.backgroundImage = '';
         card2.classList.remove('flipped');
-        card2.textContent = '';
+        card2.style.backgroundImage = '';
       }
       flippedCards = [];
     }
